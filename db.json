@@ -1,0 +1,8 @@
+{
+    "dlazdice": [
+      { "id": 1, "order":"0", "title": "json-server", "subtitle": "typicode", "color":"#407cff" },
+      { "id": 2, "order":"1", "title": "json-server", "subtitle": "subtitle", "color":"#ff7cff" },
+      { "id": 3, "order":"2", "title": "json-server", "subtitle": "subtitle2", "color":"#407c8f" },
+      { "id": 4, "order":"3", "title": "json-server", "subtitle": "subtitle2", "color":"#007cff" }
+    ]
+  }
