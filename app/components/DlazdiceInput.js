@@ -1,16 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
+import RemovePng from'../assets/remove-icon.png';
 
-const DlazdiceInput = ({placeholder, link, content, id, order, handleRemoveDlazdice}) => {
+const DlazdiceInput = ({dlazdice, handleRemoveDlazdice, handleChangeContent, handleChangeLink}) => {
+
     return ( 
-        <div>
-        <span>ikona</span>
-        <span className="colorPicker">colorPicker</span>
-        <input type="text" name="content" value={content}/>
-        <input type="text" name="link" value={link}/>
-        <button onClick={() => handleRemoveDlazdice(id)}>Remove</button>
-        <button>options</button>
-        <span>{order}</span>
-        </div>
+        <tr>
+        <td>[X]</td>
+        <td className="colorPicker">[X]</td>
+        <td><input type="text" name="content" value={dlazdice.title} onChange={(e) => handleChangeContent(e, dlazdice.id)}/></td>
+        <td><input type="text" name="link" value={dlazdice.link} onChange={(e) => handleChangeLink(e,  dlazdice.id)}/></td>
+        <td>
+            <a onClick={() => handleRemoveDlazdice(dlazdice.id)} type="button" className="centered-icon">
+                <img src={RemovePng} alt="Remove" width="19px" height="20px"/>
+            </a>
+        </td>
+        <td>. . .</td>
+        <td><span>{dlazdice.order}</span></td>
+        </tr>
     );
 }
  

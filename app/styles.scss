@@ -1,25 +1,74 @@
 @import 'fonts';
 
+/* bootstrap primary color change */
+:root {
+  --bs-primary: #407cff;;
+}
+
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
 main {
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: normal;
+  z-index: 0;
   max-width: 1170px;
   margin-left: auto;
   margin-right: auto;
 }
 
-$error-color: red;
-.danger {
-  background-color: $error-color;
+input {
+  border-radius: 3px;
+  border: solid 1px #e2e7ee;
+  background-color: #ffffff;
+  padding: 4px 8px 4px;
+  width: 100%;
+  color: #242b39;
+}
+
+button {
+  outline: 0;
+  cursor: pointer;
+}
+
+label {
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.62;
+  letter-spacing: normal;
+  color: #516173;
+}
+
+p, label {
+  font-family: Inter
+}
+
+
+a {
+  text-decoration: none;
+  svg:hover {
+    cursor: pointer;
+  }
 }
 
 #app {
   background-color: #fff;
-  h1 {
-    color:blue;
-  }
+}
+
+.tiles {
+  color: #516173;
+}
+
+.other {
+  color: #9fa7bb;
+  font-family: Inter;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
 }
 
 .extra-text {
@@ -50,23 +99,30 @@ $error-color: red;
   &__box {
     width: 100%;
     height: 100%;
-    background-color: blue;
+    background:  rgb(226, 226, 226);
+    background-size: cover;
     display: grid;
     place-items: center;
     font-family: Poppins;
     font-size: 16px;
     font-weight: 500;
     color: #ffffff;
+    // For white text would be better to add:  text-shadow:0px 0px 20px #000000, 0px 0px 5px rgba(0, 0, 0, 0.75);
+    div {
+      padding: 10% 15%;
+    }
   }
   &__layout-25 {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-   grid-auto-rows: 270px;
+    /*IE 11 does not support this*/
+    grid-template-columns: repeat(auto-fit, minmax(max(18%, 150px), 1fr));
+    grid-auto-flow: dense;
+    grid-auto-rows: 270px;
     gap: 30px;
   }
   &__layout-33 {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     grid-auto-rows: 370px;
     gap: 30px;
   }
@@ -79,26 +135,63 @@ $error-color: red;
 
 .settings {
   max-width: 1100px;
-  height: 512px;
-  margin: 100px auto 171px auto;
+  min-height: 512px;
+  max-height: calc(100vh - 200px);
+  margin: min(10vh, 100px) auto min(10vh, 100px) auto;
+  overflow: auto;
   border-radius: 8px;
-  box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.5);
   background-color: #ffffff;
-  border: 1px solid red;
   display: grid;  
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: minmax(25%, 320px) 75%;
+
 
   &__aside {
+    padding: 10px;
     border-radius: 8px 0 0 8px;
     padding: 20px;
     max-width: 320px;
     height: 100%;
     background-color: #f0f0f0;
+    border-right: 1px solid #e2e7ee;
+  }
+
+  &__dlazdice {
+    padding: 20px;
+    background-color: #f9fafa;
   }
 
   .top-bar {
-    height: 83px;
+  height: 83px;
+  font-size: 15px;
+  font-family: Inter;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.47;
+  letter-spacing: normal;
+  color: #242b39;
   }
+}
+
+.my-modal {
+  transition: 250ms opacity ease-in-out ;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width:100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.background-closing-btn {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: transparent;
+  border: 0;
 }
 
 .settings-icon {
@@ -111,12 +204,178 @@ $error-color: red;
   margin: 23px auto;
   box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.25);
   background-color: #2f3748;
+  border: 0;
 }
 
-.btn {
-  width: 100%;
-}
 
 .settings__aside {
-
+  background-color: #ffffff;
+  select {
+    font-size: 13px;
+    font-family: Inter;
+    padding: 4px 9px;
+    border-radius: 3px;
+    border: solid 1px #e2e7ee;
+    background-color: #ffffff;
+  }
 }
+.dlazdice-table {
+border-radius: 4px;
+box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+border: solid 1px #e2e7ee;
+background-color: #e2e7ee;
+}
+
+table {
+  border-collapse: collapse;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+td {
+  padding: 1em;
+  /*overring bootstrap class*/
+  background:#ffffff !important;
+  border-bottom: 1px solid #fafafa; 
+}
+
+th {
+  font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.6px;
+  color: #516173;
+  padding: 6px 0.5rem;;
+  background-color: #f1f4f8;
+}
+
+thead {
+  border: solid 1px #e2e7ee;
+}
+
+
+
+/* Creates utility classes "w-xx" ie. "w-70" - > width: 70%; */
+@for $i from 1 through 10 {
+  .w-#{$i*10} {
+      width: ($i * 10%) !important;
+  }
+}
+
+.d-flex {
+display:flex  
+}
+
+.justify-between {
+ justify-content: space-between;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.btn-xs {
+  width: 70px;
+  height: 24px;
+  margin: 0 0 0 4px;
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: 500;
+  color: #ffffff;
+  padding: 3px;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.pull-right-10 {
+  margin-right: -10px;
+}
+
+.pull-left-10 {
+  margin-left: -10px;
+}
+
+.under-general {
+  margin-left: -20px;
+  margin-right: -20px;
+  height: 2px !important;
+  background-color: #8e8e8e;
+}
+
+
+.centered-icon {
+  margin-left: 25px;
+  display: grid;
+  place-items: center;
+  height: 28px;
+}
+
+
+
+/* TILES ICON with CSS*/
+
+.tiles-icon {
+  height: 16px;
+  background-color: #fff;
+  position: relative;
+  div {
+    border-radius: 2px;
+    width: 7px;
+    height: 7px;
+    position: absolute;
+    background-color: #92b4fd ;;
+  }
+  .lt {
+    top: 0;
+    left: 0;
+    background-color: #407cff;
+  }
+  .lb {
+    bottom: 0;
+    left: 0;
+  }
+  .rt {
+    top: 0;
+    left: 8px;
+  }
+  .rb {
+    bottom: 0;
+    left: 8px;
+  }
+  span {
+    margin-left: 35px;
+    letter-spacing: 1px;
+    color: #2f3748;
+    font-size: 11px;
+  }
+}
+
+/*===========
+  ANIMATIONS
+============*/
+.fade-in {
+  -webkit-animation: fade-in 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+  animation: fade-in 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+}
+
+  @-webkit-keyframes fade-in {
+      0% {
+          opacity: 0.1;
+      }
+
+      100% {
+          opacity: 1;
+      }
+  }
+
+  @keyframes fade-in {
+      0% {
+          opacity: 0.1;
+      }
+
+      100% {
+          opacity: 1;
+      }
+  }

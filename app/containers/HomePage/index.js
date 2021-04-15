@@ -1,126 +1,171 @@
-/*
- * HomePage
- *
- * This is the first thing users see of our App, at the '/' route
- *
+/* Dlazdice a nastavení
+ All of the code created by Pavel S. Rest of the repository is taken from boilerplate.
  */
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
-import dlazdicesServices from './services/dlazdicesServices'
 
-// Import sass styles 
+// Import  styles 
 import "../../styles.css";
 
 // Import components 
-import { SettingsIcon } from "./icons/icons";
-import DlazdiceInput from '../../components/DlazdiceInput';
-import DlazdiceView from '../../components/DlazdiceView';
+import TableSetting from '../../components/TableSetting'
+import DlazdiceLayout from '../../components/DlazdiceLayout';
+import Modal from '../../components/Modal'
+import { PlusIcon, CloseIcon } from './icons/svgicons';
 
 export default function HomePage() {
 
   const [dlazdice, setDlazdice] = useState([])
+  const [visible, setVisible] = useState(false)
+  const [layoutStyle, setLayoutStyle] = useState("dlazdice__layout-25")
+  const [extraText, setExtraText] = useState("")
+  const [mainText, setMainText] = useState("")
+  const [isPending, setIsPending] = useState(false)
 
-  
+
   useEffect(() => {
+    /* GET Request for data - JSON server as a mock server */
     axios.get("http://localhost:3001/dlazdice").then(response => {
-      console.log(response)
       setDlazdice(response.data)
-    })
-  }, [])
+    }).then(
+      axios.get("http://localhost:3001/texts").then(response => {
+        /* after fetching dlazdice data, we fetch text (probably not the best solution?) */
+        setExtraText(response.data[0][0].extraText)
+        setMainText(response.data[0][0].mainText)
+      })
+    )
+  },[])
 
   const handleAddNew = () => {
-    let randId = Math.floor(Math.random() * 99999);
-    let newDlazdice =  { "id": randId, "order":dlazdice.length, "title": "New item", "link": "Your link", "color":"#407cff"}
-    setDlazdice(dlazdice.concat(newDlazdice))
-    /* Make POST here */
-  }
+    /* ID Would be assigned by DB*/
 
+    let randId = Math.floor(Math.random() * 9999)
+    let newDlazdice = {"id": randId, "order": dlazdice.length, "title": "New item", "link": "https://picsum.photos/300", "color": "#407cff" }
+    setDlazdice(dlazdice.concat(newDlazdice))
+
+    // after the add action, save it to the server, because we are using PUT, and that can not create resources.
+        setIsPending(true)
+    axios.post("http://localhost:3001/dlazdice", newDlazdice)
+    .then(() => { 
+      setIsPending(false)
+    })
+
+  }
+  {/* Maybe we do not need this? Instead we should se data based on posted form data as a whole. */}
   const handleRemoveDlazdice = (id) => {
-    console.log("removing?", id)
+    //console.log("removing?", id)
+    setIsPending(true)
     let newDlazdices = dlazdice.filter(d => d.id !== id)
     setDlazdice(newDlazdices)
-    /* Make DELETE here */
+    axios.delete(`http://localhost:3001/dlazdice/${id}`).then(setIsPending(false))
   }
+
+  const toggleVisibility = () => {
+    //console.log("changing visibility", visible)
+    setVisible(!visible)
+  }
+
+  /* Function for layout change when select is changed. Change in layout is instant, we are not waiting for "submmit". Feature or bug? */
+  const handleChangeLayout = (e) => {
+    setLayoutStyle(e.target.value)
+  }
+
+  /* Functions for controling input fileds in table setting. We are instantly updating array of dlazdices */
+  const handleChangeContent = (e, id) => {
+    let toChange = dlazdice.find((d) => d.id === id)
+    toChange.title = e.target.value
+    setDlazdice(dlazdice.filter((d) => d.id !== id ).concat(toChange))
+  }
+  const handleChangeLink= (e, id) => {
+    let toChange = dlazdice.find((d) => d.id === id)
+    toChange.link = e.target.value
+    setDlazdice(dlazdice.filter((d) => d.id !== id ).concat(toChange))
+  }
+
+  const handleSubmitSetting = (e) => {
+    console.log(dlazdice)
+    setIsPending(true)
+    e.preventDefault()
+    let data = dlazdice
+      console.log(JSON.stringify(data))
+    /* In submit we make post request, and we are waitng for it to complete. Then close the modal. */
+
+    /* Update for texts in the headers */
+    let textsToChange = [{"extraText": extraText, "mainText": mainText}]
+    axios.put(`http://localhost:3001/texts/0`, textsToChange).then(() => console.log("texts changed on server")).then(
+
+      /* after texts, there is dirty PUT for updating all dlazdices */
+      dlazdice.map((d) => {
+        axios.put(`http://localhost:3001/dlazdice/${d.id}`, d )
+        .then(() => {
+          console.log(data)
+          console.log("added")
+          setIsPending(false)
+          toggleVisibility()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      })
+    )
+  }
+
 
   return (
     <main>
-      <h6 className="extra-text"> EXTRA TEXT </h6>
-      <h3 className="get-inspired"> Get Inspired </h3>
-      <div className="dlazdice__layout-33">
-        {dlazdice.map(d => {
-          console.log(d);
-          return (
-          <DlazdiceView content={d.title} link={d.link} classes={"span-" + d.span} key={d.id}/>
-          )
-        })}
-      </div>
-      <h6 className="extra-text"> EXTRA TEXT </h6>
-      <h3 className="get-inspired"> Get Inspired </h3>
-      <div className="dlazdice__layout-25">
-      {dlazdice.map(d => {
-          /* For elements with order 2,3,8,9,14... make it span-2. Better would be using algorithm in if statement but doesnt work for me now*/
-          let biggerElements = []
-          for (let i = 0; i < 500; i++) {
-            if (i % 3 === 0 && i % 2 !== 0) {
-              biggerElements.push(i-1)
-              biggerElements.push(i);
-              }
-            }  
+      <DlazdiceLayout dlazdice={dlazdice} layoutStyle={layoutStyle} extraText={extraText} mainText={mainText}/>
+    
+      {/* In modal, we are passing visible status, and function for toggle visibility (because we need to have btn in modal). Childrens are rendered by props.children in modal component */}  
+      <Modal visible={visible} toggleVisibility={toggleVisibility}>
+        <form className="settings" onSubmit={handleSubmitSetting}>
 
-           /* Pokud je pořadí dělitelné 3 a ne dvěma, nebo je to prvek za tímto, tak span=2 */ 
-          let span
-          if (biggerElements.includes(d.order)) {
-            span="span-2"
-          }
+          <div className="settings__aside">
+            <div className="top-bar ">
 
-          return (
-          <DlazdiceView content={d.order} link={d.link} classes={span} key={d.id}/>
-          )
-        })}
-      </div>
-
-      <div onClick={console.log("hide/shiw")} className="settings-icon">
-        <SettingsIcon color="white"/>
-     </div>
-
-      <section className="settings">
-
-        <div className="settings__aside">
-          <div className="top-bar">
-          IKONA - TILES <br/>
-          General
+              <div className="tiles-icon d-flex">
+                <div className="lt"></div>
+                <div className="rt"></div>
+                <div className="lb"></div>
+                <div className="rb"></div>
+                <span>TILES</span>
+              </div> 
+    
+              <br />
+              General
+            </div>
+            <hr className="mt-0 mb-3 under-general"/>
+            <label htmlFor="display-style" className="d-block mb-1">Display</label>
+            <select onChange={handleChangeLayout} name="display-style" id="display-style-select" value={layoutStyle} className="w-70 form-select">
+              <option value="dlazdice__layout-25">4 Tiles (25-25-50)</option>
+              <option value="dlazdice__layout-33">3 Tiles (33-33-33)</option>
+            </select>
+            <hr />
+            <div className="other">TEXT</div>
+            <label htmlFor="title">Title</label>
+            {/*onChange={(e) => setExtraText(e.target.value)} -- we want user to submit this on server. This would be different in real-life*/}
+            <input type="text" value={extraText} name="extraText" onChange={(e) => setExtraText(e.target.value)}/>
+            <label htmlFor="subtitle">subtitle</label>
+            <input type="text" value={mainText} onChange={(e) => setMainText(e.target.value)} name="mainText"/>
+            <hr />
+            { isPending && <button className="btn btn-block btn-primary w-100" type="submit" disabled>Updating...</button>}
+            { !isPending && <button className="btn btn-block btn-primary w-100" type="submit"  onClick={handleSubmitSetting} >Update</button>}
           </div>
-          <label htmlFor="display-style">Display</label> 
-          <select name="display-style" id="display-style-select">
-            <option value="25-25-50">25-25-50</option>
-            <option value="33-33-33">33-33-33</option>
-          </select>
-          <hr/>
-          <div className="subsection-label">TEXT</div>
-          <label htmlFor="title">Title</label>
-          <input type="text"/>
-          <label htmlFor="subtitle">subtitle</label>
-          <input type="text"/>
-          <hr/>
-          <button className="btn btn-block" variant="contained" color="primary" type="submit"> Update</button>
-        </div>
 
-        <div className="settings__dlazdice">
-          <button onClick={handleAddNew}>Add new dlazdice</button>
-          {dlazdice.map(d => {
-            return (
-              <>
-            <DlazdiceInput handleRemoveDlazdice={handleRemoveDlazdice} placeholder="Your name" content={d.title} link={d.link}  key={d.id} id={d.id}/>
-            <span>{d.order}</span>
-            </>
-            )
-          })}
-          
-        </div>
-
-      </section>
-      <footer>.</footer>
+          <div className="settings__dlazdice">
+            <div className="d-flex justify-end">
+            <a onClick={toggleVisibility} className="pull-right-10"><CloseIcon/></a>
+            </div>
+            <div className="d-flex justify-between">
+            <p>Tiles</p>
+            <button onClick={handleAddNew} type="button" className="btn btn-primary btn-xs d-flex ">
+              <PlusIcon/>
+              <div>Add</div> </button>
+            </div>
+            <TableSetting classes="table responsive dlazdice-table" dlazdice={dlazdice}/>
+          </div>
+        </form>
+      </Modal>
     </main>
   );
 }
