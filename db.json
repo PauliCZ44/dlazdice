@@ -1,0 +1,56 @@
+{
+  "dlazdice": [
+  
+    {
+      "id": 1,
+      "title": "Styles",
+      "link": "https://picsum.photos/300",
+      "order": 0
+    },
+    {
+      "id": 2693,
+      "order": 1,
+      "title": "Print Templates",
+      "link": "https://picsum.photos/300",
+      "color": "#407cff"
+    },
+    {
+      "id": 2694,
+      "order": 2,
+      "title": "Colors",
+      "link": "https://picsum.photos/301",
+      "color": "#407cff"
+    },
+    {
+      "id": 2224,
+      "order": 3,
+      "title": "Item number 3",
+      "link": "https://picsum.photos/307",
+      "color": "#407cff"
+    },
+    {
+      "id": 9828,
+      "order": 4,
+      "title": "Photos",
+      "link": "https://picsum.photos/301",
+      "color": "#407cff"
+    },
+    {
+      "id": 5614,
+      "order": 5,
+      "title": "Shop",
+      "link": "https://picsum.photos/301",
+      "color": "#407cff"
+    }
+  ],
+  "texts": [
+    {
+      "0": {
+        "extraText": "EXTRA TEXT?",
+        "mainText": "GET INSPIRED!",
+        "layoutStyle": "dlazdice__layout-25"
+      },
+      "id": 0
+    }
+  ]
+}

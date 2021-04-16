@@ -1,12 +1,13 @@
 import React from 'react';
 import DlazdiceInput from './DlazdiceInput';
+import { SortIconDown } from '../containers/HomePage/icons/svgicons'
 
-const TableSetting = (props) => {
+const TableSetting = ({classes, dlazdice, handleRemoveDlazdice, handleChangeContent, handleChangeLink}) => {
     return (  
-    <table className={props.classes}>
+    <table className={classes}>
     <thead>
       <tr>
-        <th>Sort</th>
+        <th><SortIconDown/></th>
         <th>BG</th>
         <th>TEXT</th>
         <th>LINK</th>
@@ -18,7 +19,7 @@ const TableSetting = (props) => {
     <tbody>
 
     {/* Rendering dlazdices input rows */}
-    {props.dlazdice
+    {dlazdice
       .sort((a, b) => a.order - b.order)
       .map(d => {
         return (

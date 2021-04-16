@@ -73,9 +73,29 @@ const PlusIcon = ({ width, height, color }) => (
 </svg>
 )
 
-const RemoveIcon = ({ width, height, color }) => ( 
-<img src="" alt=""/>
+
+const SortIconDown = ({ width, height, color }) => ( 
+<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="21" height="21" viewBox="-5 -5 21 21">
+    <defs>
+        <path id="sb3xvj7bba" d="M3 2c.552 0 1 .448 1 1v7.584l.293-.291c.39-.39 1.023-.39 1.414 0 .39.39.39 1.023 0 1.414l-2.706 2.707L.293 11.71c-.39-.39-.39-1.023 0-1.414.39-.39 1.023-.391 1.414 0l.293.293V3c0-.552.448-1 1-1zm8 8c.552 0 1 .448 1 1s-.448 1-1 1H9c-.552 0-1-.448-1-1s.448-1 1-1h2zm2-4c.552 0 1 .448 1 1s-.448 1-1 1H7c-.552 0-1-.448-1-1s.448-1 1-1h6zm2-4c.552 0 1 .448 1 1s-.448 1-1 1H7c-.552 0-1-.448-1-1s.448-1 1-1h8z"/>
+    </defs>
+    <g fill="none" fillRule="evenodd">
+        <g>
+            <g>
+                <g transform="translate(-605 -1952) translate(250 1868.896) translate(355 84)">
+                    <mask id="pg3636x9rb" fill="#fff">
+                        <use xlinkHref="#sb3xvj7bba"/>
+                    </mask>
+                    <use fill="#000" fillRule="nonzero" xlinkHref="#sb3xvj7bba"/>
+                    <g fill="#9FA7BB" mask="url(#pg3636x9rb)">
+                        <path d="M0 0H25V25H0z"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
 )
 export {
-    SettingsIcon, CloseIcon, PlusIcon, RemoveIcon
+    SettingsIcon, CloseIcon, PlusIcon, SortIconDown
 }

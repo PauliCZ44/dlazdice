@@ -5,8 +5,8 @@ const DlazdiceInput = ({dlazdice, handleRemoveDlazdice, handleChangeContent, han
 
     return ( 
         <tr>
-        <td>[X]</td>
-        <td className="colorPicker">[X]</td>
+        <td>X</td>
+        <td className="colorPicker">X</td>
         <td><input type="text" name="content" value={dlazdice.title} onChange={(e) => handleChangeContent(e, dlazdice.id)}/></td>
         <td><input type="text" name="link" value={dlazdice.link} onChange={(e) => handleChangeLink(e,  dlazdice.id)}/></td>
         <td>
@@ -14,7 +14,7 @@ const DlazdiceInput = ({dlazdice, handleRemoveDlazdice, handleChangeContent, han
                 <img src={RemovePng} alt="Remove" width="19px" height="20px"/>
             </a>
         </td>
-        <td>. . .</td>
+        <td>...</td>
         <td><span>{dlazdice.order}</span></td>
         </tr>
     );
