@@ -1,6 +1,5 @@
 {
   "dlazdice": [
-  
     {
       "id": 1,
       "title": "Styles",
@@ -32,13 +31,6 @@
       "id": 9828,
       "order": 4,
       "title": "Photos",
-      "link": "https://picsum.photos/301",
-      "color": "#407cff"
-    },
-    {
-      "id": 5614,
-      "order": 5,
-      "title": "Shop",
       "link": "https://picsum.photos/301",
       "color": "#407cff"
     }
